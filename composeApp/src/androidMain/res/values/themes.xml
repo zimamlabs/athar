@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Athar" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#26160E</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>

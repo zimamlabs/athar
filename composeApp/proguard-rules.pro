@@ -1,0 +1,6 @@
+-keepattributes *Annotation*, InnerClasses
+-dontwarn org.slf4j.**
+-keep,includedescriptorclasses class dev.athar.core.**$$serializer { *; }
+-keepclassmembers class dev.athar.core.** { *** Companion; }
+-keep,includedescriptorclasses class dev.athar.clipboard.**$$serializer { *; }
+-keepclassmembers class dev.athar.clipboard.** { *** Companion; }

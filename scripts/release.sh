@@ -13,14 +13,13 @@ VERSION="$(sed -n 's/.*versionName = "\(.*\)".*/\1/p' composeApp/build.gradle.kt
 : "${VERSION:?could not read versionName}"
 [ -n "${ATHAR_KEYSTORE:-}" ] || echo "note: ATHAR_KEYSTORE is not set, the APKs will be unsigned" >&2
 
-./gradlew --no-daemon :shared:desktopTest :feature-notes:desktopTest :feature-journal:desktopTest :feature-clipboard:desktopTest :composeApp:assembleRelease :composeApp:packageDeb
+./gradlew --no-daemon :shared:desktopTest :feature-notes:desktopTest :feature-journal:desktopTest :feature-clipboard:desktopTest :composeApp:assembleRelease
 
 OUT="dist/$VERSION"
 rm -rf "$OUT"; mkdir -p "$OUT"
 for abi in arm64-v8a armeabi-v7a x86_64; do
   cp "composeApp/build/outputs/apk/release/composeApp-$abi-release.apk" "$OUT/Athar_${VERSION}_Android_$abi.apk" 2>/dev/null || true
 done
-cp composeApp/build/compose/binaries/main/deb/athar_*_amd64.deb "$OUT/Athar_${VERSION}_Linux_amd64.deb"
 
 # One checksum file per release file, named after it, so `sha256sum -c <file>.sha256` works.
 (cd "$OUT" && for f in Athar_*; do case "$f" in *.sha256) ;; *) sha256sum -- "$f" > "$f.sha256" ;; esac; done)

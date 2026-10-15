@@ -4,7 +4,7 @@ import okio.FileSystem
 import okio.Path
 
 /**
- * Brings the notes and journal of another vault (Thabit, Dawem) into this one by COPYING them. The source is never
+ * Brings the notes and journal of another vault (Thabit) into this one by COPYING them. The source is never
  * changed or deleted; every file is checked by size and SHA-256; a file already here is never overwritten (a different
  * file of the same name is kept beside it as `name (from Thabit).md`); running it twice copies nothing new.
  */

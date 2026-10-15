@@ -90,7 +90,7 @@ class NotesRepositoryTest {
         assertEquals(n.id, read.id)
     }
 
-    @Test fun theHeaderKeysThabitAndDawemWriteStayReadable() {
+    @Test fun theHeaderKeysThabitWritesStayReadable() {
         fs.createDirectories("/v/notes".toPath())
         fs.write("/v/notes/old-abcd1234.md".toPath()) { writeUtf8("---\nid: abcd1234\ntitle: Old\ncreated: 2026-01-01T09:00:00\nupdated: 2026-01-02T09:00:00\ntags: [a, b]\npinned: true\n---\nbody\n") }
         val n = repo.notes().single()

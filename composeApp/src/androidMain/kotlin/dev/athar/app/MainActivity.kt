@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.CompositionLocalProvider
+import dev.athar.core.LegacyNames
 import dev.athar.core.Vault
 import dev.athar.core.VaultLocation
 import dev.athar.core.zipVault
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
             removableOldFolders = { removable() },
             removeOldFolder = { removeOld(it) },
             migrationMessage = migrationMessage,
-            importCandidates = listOf("Zimam/Thabit", "Zimam/Dawem", "Thabit", "Dawem").map { File(Environment.getExternalStorageDirectory(), it).absolutePath },
+            importCandidates = LegacyNames.importFolders.map { File(Environment.getExternalStorageDirectory(), it).absolutePath },
         )
         setContent { CompositionLocalProvider(LocalPlatform provides actions) { AtharApp(store) } }
     }

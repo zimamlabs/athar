@@ -102,7 +102,7 @@ fun SettingsScreen(store: AtharStore) {
     }
 }
 
-/** Import from Thabit or Dawem: the vaults found in the usual places, or a folder path typed here. Copies only, with a report. */
+/** Import from Thabit: the vaults found in the usual places, or a folder path typed here. Copies only, with a report. */
 @Composable
 fun ImportSection(store: AtharStore, platform: PlatformActions) {
     val found = remember(store.revision) { VaultImport.find(store.vault.fs, platform.importCandidates.map { it.toPath() }, store.vault.root).map { it.toString() } }

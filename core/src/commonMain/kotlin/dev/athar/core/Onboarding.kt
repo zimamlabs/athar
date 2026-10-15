@@ -37,7 +37,7 @@ object ReleaseNotes {
         "0.1.0" to mapOf(
             "en" to listOf(
                 "Athar is here: quick capture, Markdown notes, a daily journal and (on the desktop) clipboard history, all in plain files.",
-                "Bring your notes and journal from Thabit or Dawem: Settings, Import. Nothing is moved or changed in the old folder.",
+                "Bring your notes and journal from Thabit: Settings, Import. Nothing is moved or changed in the old folder.",
                 "English and Arabic, with right-to-left layout.",
             ),
             "ar" to listOf(

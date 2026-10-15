@@ -30,5 +30,3 @@ jobs:
         run: ./gradlew :shared:desktopTest :feature-notes:desktopTest :feature-journal:desktopTest :feature-clipboard:desktopTest :ui:desktopTest :core:desktopTest
       - name: Android debug build
         run: ./gradlew :composeApp:assembleDebug
-      - name: Linux package
-        run: ./gradlew :composeApp:packageDeb

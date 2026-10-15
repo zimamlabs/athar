@@ -51,8 +51,8 @@ android {
         applicationId = "dev.athar.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.1.1"
     }
     signingConfigs {
         create("release") {
@@ -99,7 +99,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Deb)
             packageName = "athar"
-            packageVersion = "0.1.0"
+            packageVersion = "0.1.1"
             description = "Personal knowledge and capture: notes, journal and clipboard history, in plain files"
             vendor = "Zimam"
             linux {

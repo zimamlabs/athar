@@ -30,6 +30,10 @@ object Onboarding {
 /** Short notes per version (English and Arabic); shown once after an update. */
 object ReleaseNotes {
     private val notes: Map<String, Map<String, List<String>>> = mapOf(
+        "0.1.1" to mapOf(
+            "en" to listOf("A new app icon."),
+            "ar" to listOf("أيقونة جديدة للتطبيق."),
+        ),
         "0.1.0" to mapOf(
             "en" to listOf(
                 "Athar is here: quick capture, Markdown notes, a daily journal and (on the desktop) clipboard history, all in plain files.",

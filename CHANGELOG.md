@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- **A new app icon.**
+
 ## 0.1.0
 
 - **First release.** Quick capture, Markdown notes (tags, collections, pin, favorite, archive, trash and restore), a daily journal with a month calendar, mood, earlier and later entry and a streak, desktop clipboard history, search across all three, writing insights, Home with your writing numbers.

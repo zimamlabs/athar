@@ -5,6 +5,6 @@ object Brand {
     const val NAME = "Athar"
     const val ARABIC = "أثر"
     const val MAKER = "Zimam"
-    const val VERSION = "0.1.0"
+    const val VERSION = "0.1.1"
     const val REPO = "https://github.com/zimamlabs/athar"
 }

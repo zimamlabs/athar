@@ -14,7 +14,9 @@ class OnboardingTest {
     @Test fun `versions compare by number, not text`() { assertTrue(Onboarding.compare("0.10.0", "0.9.0") > 0); assertEquals(0, Onboarding.compare("1.0", "1.0.0")) }
     @Test fun `notes fall back to the newest older version and have both languages`() {
         assertTrue(ReleaseNotes.forVersion("0.1.0").isNotEmpty())
-        assertEquals(ReleaseNotes.forVersion("0.1.0"), ReleaseNotes.forVersion("0.1.9"))
+        assertEquals(ReleaseNotes.forVersion("0.1.1"), ReleaseNotes.forVersion("0.1.9"))
+        assertTrue(ReleaseNotes.forVersion("0.1.1") != ReleaseNotes.forVersion("0.1.0"))
+        assertTrue(ReleaseNotes.forVersion("0.1.1", "ar") != ReleaseNotes.forVersion("0.1.1", "en"))
         assertTrue(ReleaseNotes.forVersion("0.1.0", "ar") != ReleaseNotes.forVersion("0.1.0", "en"))
         assertTrue(ReleaseNotes.forVersion("0.0.1").isEmpty())
     }

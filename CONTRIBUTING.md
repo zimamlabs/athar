@@ -1,9 +1,22 @@
-# Contributing
+# Contributing to Athar
 
-Athar is a small, local-first app. Issues and ideas are welcome.
+Athar is a small open-source app by [Zimam Labs](https://github.com/zimamlabs). Ideas, bug reports and pull requests are welcome.
 
-- Work on a branch and open a pull request into `main`; the PR title is the branch name. `main` is protected: the "Tests and builds" check must pass, and history stays linear (squash merge).
-- Keep the module rules: features (`feature-*`) depend only on `:core` and `:ui` (`scripts/check-modules.sh`).
-- Every text goes in both `StringsEn.kt` and `StringsAr.kt`; a test checks they match.
-- New logic comes with a test. Never delete or overwrite a user's file: copy, verify, keep.
-- Commit messages describe the change; no tool attribution.
+## Before you start
+
+- Open an issue first for anything bigger than a small fix, so we agree on the idea.
+- Report security problems privately (see [SECURITY.md](SECURITY.md)).
+
+## Pull requests
+
+- `main` is protected: work on a branch, open a pull request, and wait for the **Tests and builds** check to pass. Pull requests are squash merged.
+- Name the branch after the change (for example `fix/note-save` or `feat/backlinks`); the pull request title is the branch name, and the description says what changed and why.
+- Keep a change small and focused, add or update tests for new logic, and update the README and CHANGELOG when behaviour changes.
+- Features (`feature-*`) depend only on `:core` and `:ui`; `scripts/check-modules.sh` checks it.
+- Every text goes in both `StringsEn.kt` and `StringsAr.kt`; a test fails when they differ.
+- Data is plain files. Never write a change that can delete or overwrite a user's files without asking first: copy, verify, keep.
+- Build and test with the commands in the [README](README.md#build).
+
+## Licence
+
+By contributing you agree that your work is released under the [MIT licence](LICENSE).

@@ -16,9 +16,9 @@ Athar is the home of notes and journal that used to live in Thabit (formerly Daw
 
 ## Screenshots
 
-Screenshots will be added here once the app has been run and captured on a phone and a desktop.
+Screenshots: coming with the next release.
 
-## What is in it
+## Features
 
 - **Home**: a greeting, a capture box (one tap or Ctrl+Alt+N inside the window), your writing numbers (words, this week, day streak, notes), pinned and recent notes, today's journal, "on this day" from earlier years and, on the desktop, what you copied lately.
 - **Notes**: Markdown with a reading view and an edit view, tags, collections (folders), pin, favorite, archive and trash with restore. Typing is saved by itself. The note header (`id`, `title`, `created`, `updated`, `tags`, `pinned`) is the same as Thabit's and Dawem's, so notes copy between the apps.
@@ -31,7 +31,7 @@ Screenshots will be added here once the app has been run and captured on a phone
 - **Themes**: System, Light or Dark, in the Zimam look, plus other palettes.
 - **First-run tour** and a one-time **What's new** after each update.
 
-## Your data folder
+## Where your data lives
 
 Athar keeps one vault folder: `Zimam/Athar` (on the phone when you allow *All files access*, otherwise a private folder; `~/Zimam/Athar` on the desktop).
 
@@ -65,6 +65,12 @@ sha256sum -c Athar_<version>_Linux_amd64.deb.sha256
 sudo apt install ./Athar_<version>_Linux_amd64.deb
 ```
 
+For the APK, check the file before you install it:
+
+```
+sha256sum -c Athar_<version>_Android_arm64-v8a.apk.sha256
+```
+
 ### Verify the Android download
 
 Every APK is signed with Athar's own key. Android installs it without a store because the signature is valid, and shows its usual "unknown source" notice for anything that did not come from Google Play. To check a file is really ours, compare its signing certificate with this fingerprint:
@@ -75,6 +81,7 @@ SHA-256: 50:40:7E:A0:96:4C:A5:85:D5:F9:C7:93:9F:6D:37:A5:3C:E3:03:67:14:5A:11:F0
 
 ```
 apksigner verify --print-certs Athar_<version>_Android_arm64-v8a.apk
+sha256sum -c Athar_<version>_Android_arm64-v8a.apk.sha256
 ```
 
 ## Build

@@ -74,7 +74,7 @@ class VaultTest {
         assertEquals(n.id, v.notes().single().id)
     }
 
-    // ---- import from Thabit / Dawem -----------------------------------------------------------
+    // ---- import from Thabit -----------------------------------------------------------
 
     private fun fakeThabit(fs: FakeFileSystem) {
         fs.createDirectories("/old/Thabit/notes".toPath()); fs.createDirectories("/old/Thabit/journal/2026".toPath()); fs.createDirectories("/old/Thabit/tasks".toPath())

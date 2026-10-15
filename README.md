@@ -12,7 +12,7 @@
 
 Athar (أثر, a lasting trace) is one private place to capture a thought, keep Markdown notes, write a daily journal and, where the platform allows it, keep a history of what you copied. Everything is plain files in a folder you own, so it works offline, opens in any editor and moves between computers by copying the folder. No account, nothing sent anywhere.
 
-Athar is the home of notes and journal that used to live in Thabit (formerly Dawem), and it can import them.
+Athar is the home of notes and journal that used to live in Thabit, and it can import them.
 
 ## Screenshots
 
@@ -21,12 +21,12 @@ Screenshots: coming with the next release.
 ## Features
 
 - **Home**: a greeting, a capture box (one tap, or Ctrl+Alt+N inside the desktop window), your writing numbers (words, this week, day streak, notes), pinned and recent notes, today's journal, "on this day" from earlier years and, where clipboard history works, what you copied lately.
-- **Notes**: Markdown with a reading view and an edit view, tags, collections (folders), pin, favorite, archive and trash with restore. Typing is saved by itself. The note header (`id`, `title`, `created`, `updated`, `tags`, `pinned`) is the same as Thabit's and Dawem's, so notes copy between the apps.
+- **Notes**: Markdown with a reading view and an edit view, tags, collections (folders), pin, favorite, archive and trash with restore. Typing is saved by itself. The note header (`id`, `title`, `created`, `updated`, `tags`, `pinned`) is the same as Thabit's, so notes copy between the apps.
 - **Journal**: one entry a day, a month calendar with a dot on the days you wrote, earlier and later entry, an optional mood, a look-back list and a day count streak.
 - **Clipboard history** (works where the platform allows it; Android does not): records the texts you copy while it is on, keeps up to 500, skips repeats, lets you pin, copy back, delete and clear, and shows clearly whether it is recording. It is off until you turn it on, never reads the clipboard while off, skips texts that match your own patterns and has a "skip the next copy" button. Android does not let an app watch the clipboard in the background, so it does not support this part.
 - **Search** across notes, journal and clipboard, best match first (title, tag, collection, then body), with a snippet.
 - **Insights**: words, notes made, days written and mood over 7, 30 or 90 days, a bar a day, and your streaks.
-- **Import from Thabit or Dawem**: Settings and the first-run tour find a vault in the usual places (`Zimam/Thabit`, `Zimam/Dawem`, `~/Dawem`) or take a folder path, and **copy** its `notes/` and `journal/` here. Every file is checked by size and SHA-256, nothing is overwritten (a different file with the same name is kept beside it as `name (from Thabit).md`), the old folder is never changed or deleted, and running it twice copies nothing new.
+- **Import from Thabit**: Settings and the first-run tour find a vault in the usual places (older versions are found automatically) or take a folder path, and **copy** its `notes/` and `journal/` here. Every file is checked by size and SHA-256, nothing is overwritten (a different file with the same name is kept beside it as `name (from Thabit).md`), the old folder is never changed or deleted, and running it twice copies nothing new.
 - **English and Arabic**, right to left, with a choice of Western or Arabic-Indic digits.
 - **Themes**: System, Light or Dark, in the Zimam look, plus other palettes.
 - **First-run tour** and a one-time **What's new** after each update.
@@ -104,7 +104,7 @@ Work goes in this order. See the open [audit issues](https://github.com/zimamlab
 5. Backlinks between notes, then attachments and images.
 6. Sync between devices (later).
 
-Thabit 0.9.0 removed its notes and journal. They live here now, and Athar imports them from a Thabit or Dawem vault.
+Thabit 0.9.0 removed its notes and journal. They live here now, and Athar imports them from a Thabit vault.
 
 ## Licence
 

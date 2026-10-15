@@ -16,7 +16,7 @@ class PlatformActions(
     val removeOldFolder: (String) -> Boolean = { false },
     /** Why the old folder is still in use, when the copy could not be verified. */
     val migrationMessage: String? = null,
-    /** Places where a Thabit or Dawem vault may be (Zimam/Thabit, Zimam/Dawem, ~/Dawem, ...). */
+    /** Places where a Thabit vault may be (see LegacyNames). */
     val importCandidates: List<String> = emptyList(),
     /** True where a keyboard is expected (the desktop), so the Ctrl+Alt+N hint is shown. */
     val shortcutHint: Boolean = false,

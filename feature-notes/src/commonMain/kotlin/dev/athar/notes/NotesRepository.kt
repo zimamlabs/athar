@@ -9,7 +9,7 @@ import okio.Path
 
 /**
  * Notes as Markdown files in `notes/`, each with a small header (`id`, `title`, `created`, `updated`, `tags`, and `pinned`,
- * `favorite`, `archived`, `collection` when set). The first five keys are the same ones Thabit and Dawem write, so notes can
+ * `favorite`, `archived`, `collection` when set). The first five keys are the same ones Thabit writes, so notes can
  * be copied between the apps. Deleting moves a note to the vault's trash, where it can be restored.
  */
 class NotesRepository(private val files: VaultFiles) {

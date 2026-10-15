@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import dev.athar.core.LegacyNames
 import dev.athar.core.Vault
 import dev.athar.core.VaultLocation
 import dev.athar.core.zipVault
@@ -27,7 +28,7 @@ fun main() = application {
     val choice = VaultLocation.choose(fs, true, shared, olds, shared)
     val dir = File(choice.dir.toString()).also { it.mkdirs() }
     val store = AtharStore(Vault(fs, dir.absolutePath.toPath()), dir.absolutePath, dev.athar.clipboard.AwtClipboard)
-    val actions = PlatformActions(removableOldFolders = { VaultLocation.removable(fs, choice.dir, shared, olds).map { it.toString() } }, removeOldFolder = { VaultLocation.remove(fs, it.toPath(), shared) }, migrationMessage = choice.message, shortcutHint = true, importCandidates = listOf("Zimam/Thabit", "Zimam/Dawem", "Thabit", "Dawem").map { File(home, it).absolutePath }, exportVault = {
+    val actions = PlatformActions(removableOldFolders = { VaultLocation.removable(fs, choice.dir, shared, olds).map { it.toString() } }, removeOldFolder = { VaultLocation.remove(fs, it.toPath(), shared) }, migrationMessage = choice.message, shortcutHint = true, importCandidates = LegacyNames.importFolders.map { File(home, it).absolutePath }, exportVault = {
         val dialog = FileDialog(null as Frame?, "Save the vault as a zip", FileDialog.SAVE).apply { directory = File(dir, "exports").also { it.mkdirs() }.absolutePath; file = "Athar-vault.zip"; isVisible = true }
         val name = dialog.file
         if (name != null) File(dialog.directory, name).sink().buffer().use { zipVault(FileSystem.SYSTEM, store.vault.root, it) }

@@ -42,7 +42,7 @@ import dev.athar.core.ReleaseNotes
 import dev.athar.ui.LocalLang
 import kotlinx.coroutines.launch
 
-/** The first-install tour: what Athar is, where the data lives, bringing notes from Thabit or Dawem, a look to pick, and a start. Skip or Done both end it. */
+/** The first-install tour: what Athar is, where the data lives, bringing notes from Thabit, a look to pick, and a start. Skip or Done both end it. */
 @Composable
 fun TourScreen(store: AtharStore, onDone: () -> Unit) {
     val platform = LocalPlatform.current

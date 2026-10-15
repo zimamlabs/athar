@@ -20,7 +20,7 @@ import okio.Path
  * clipboard/history.json           the copies Athar recorded (desktop)
  * .athar/                          settings and the trash
  * ```
- * `notes/` and `journal/` use the same format as Thabit and Dawem.
+ * `notes/` and `journal/` use the same format as Thabit.
  */
 class Vault(
     val fs: FileSystem,

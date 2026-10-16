@@ -37,6 +37,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -137,13 +138,15 @@ private fun NoteEditor(state: NotesState, start: Note, onClose: () -> Unit) {
     // A note you open is read first; a new one starts in edit mode. The pencil switches.
     var reading by remember(start.id) { mutableStateOf(start.id.isNotEmpty()) }
     var confirmTrash by remember { mutableStateOf(false) }
-    // Typing is saved shortly after it stops; a note that is still empty is never written.
-    LaunchedEffect(note.title, note.body, note.pinned, note.favorite, note.archived, note.collection, tags) {
-        if (note.title.isBlank() && note.body.isBlank()) return@LaunchedEffect
+    // Typing is saved shortly after it stops, and at once when the editor closes; a note that is still empty is never written.
+    val draft = remember(start.id) { NoteDraft({ state.save(it) }, start) }
+    val withTags = { note.copy(tags = tags.split(' ', ',').map { it.trim().trimStart('#') }.filter { it.isNotEmpty() }) }
+    LaunchedEffect(note, tags) {
+        draft.edit(withTags())
         delay(600)
-        val saved = state.save(note.copy(tags = tags.split(' ', ',').map { it.trim().trimStart('#') }.filter { it.isNotEmpty() }))
-        if (note.id.isEmpty()) note = note.copy(id = saved.id, created = saved.created)
+        draft.flush().let { if (note.id.isEmpty() && it.id.isNotEmpty()) note = note.copy(id = it.id, created = it.created) }
     }
+    DisposableEffect(draft) { onDispose { draft.edit(withTags()); draft.flush() } }
     PlatformBackHandler(true, onClose)
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,

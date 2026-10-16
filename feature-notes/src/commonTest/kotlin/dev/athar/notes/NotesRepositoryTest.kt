@@ -4,6 +4,11 @@ import dev.athar.core.VaultFiles
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import okio.FileSystem
+import okio.ForwardingFileSystem
+import okio.IOException
+import okio.Path
+import okio.Sink
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
 import kotlin.test.Test
@@ -113,5 +118,56 @@ class NotesRepositoryTest {
         assertEquals(listOf("4"), notesIn(NoteView.Collection("Work"), all).map { it.id })
         assertEquals(listOf("2"), notesIn(NoteView.Tag("t"), all).map { it.id })
         assertEquals(listOf("4", "2", "1"), notesIn(NoteView.Recent, all).map { it.id })
+    }
+
+    private class Flaky(d: FileSystem) : ForwardingFileSystem(d) {
+        var failWrites = false
+        override fun sink(file: Path, mustCreate: Boolean): Sink {
+            if (failWrites) throw IOException("disk full")
+            return super.sink(file, mustCreate)
+        }
+    }
+
+    @Test fun aFailedWriteDuringRenameLeavesTheOldFileIntact() {
+        val flaky = Flaky(fs)
+        val r = NotesRepository(VaultFiles(flaky, "/v".toPath(), clock, TimeZone.UTC))
+        val first = r.save(Note("", "Old name", "precious", "", ""))
+        flaky.failWrites = true
+        runCatching { r.save(first.copy(title = "New name")) }
+        flaky.failWrites = false
+        val n = r.notes().single()
+        assertEquals("precious", n.body.trim()); assertEquals(first.id, n.id)
+    }
+
+    @Test fun savingANoteThatChangedNothingDoesNotTouchTheFile() {
+        fs.createDirectories("/v/notes".toPath())
+        val text = "---\nid: abc12345\ntitle: T\ncreated: 2020-01-01T00:00:00\nupdated: 2020-01-01T00:00:00\ntags: [a]\naliases: [x, y]\n---\nbody\n"
+        fs.write("/v/notes/t-abc12345.md".toPath()) { writeUtf8(text) }
+        val loaded = repo.notes().single()
+        repo.save(loaded)
+        assertEquals(text, fs.read("/v/notes/t-abc12345.md".toPath()) { readUtf8() })
+    }
+
+    @Test fun editingKeepsHeaderKeysTheAppDoesNotKnow() {
+        fs.createDirectories("/v/notes".toPath())
+        fs.write("/v/notes/t-abc12345.md".toPath()) { writeUtf8("---\nid: abc12345\ntitle: T\naliases: [x, y]\nweather: rain\n---\nbody\n") }
+        val loaded = repo.notes().single()
+        repo.save(loaded.copy(body = "changed"))
+        val text = fs.read("/v/notes/t-abc12345.md".toPath()) { readUtf8() }
+        assertTrue(text.contains("aliases: [x, y]") && text.contains("weather: rain") && text.contains("changed"), text)
+        // a copy that lost the extras (a fresh editor state) still keeps them
+        repo.save(Note("abc12345", "T", "again", "", ""))
+        assertTrue(fs.read("/v/notes/t-abc12345.md".toPath()) { readUtf8() }.contains("weather: rain"))
+    }
+
+    @Test fun aDraftFlushedRightAfterTypingIsOnDisk() {
+        val d = NoteDraft({ repo.save(it) }, Note("", "", "", "", ""))
+        d.flush(); assertEquals(0, repo.notes().size)
+        d.edit(d.note.copy(body = "last words"))
+        d.flush()
+        assertEquals("last words", repo.notes().single().body.trim())
+        d.flush(); d.edit(d.note.copy(body = "more"))
+        d.flush()
+        assertEquals(1, repo.notes().size); assertEquals("more", repo.notes().single().body.trim())
     }
 }

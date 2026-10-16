@@ -18,6 +18,8 @@ class NotesRepository(private val files: VaultFiles) {
 
     init { fs.createDirectories(dir); fs.createDirectories(files.trash) }
 
+    private companion object { val KNOWN = setOf("id", "title", "created", "updated", "tags", "pinned", "favorite", "archived", "collection") }
+
     private fun mdFiles(folder: Path): List<Path> = fs.listOrNull(folder).orEmpty().filter { it.name.endsWith(".md") }
 
     private fun order() = compareByDescending<Note> { it.pinned }.thenByDescending { it.updated }
@@ -38,22 +40,31 @@ class NotesRepository(private val files: VaultFiles) {
             id, title, doc.body, doc.meta["created"].orEmpty(), doc.meta["updated"].orEmpty(), doc.list("tags"),
             pinned = doc.meta["pinned"] == "true", favorite = doc.meta["favorite"] == "true", archived = doc.meta["archived"] == "true",
             collection = doc.meta["collection"].orEmpty(),
+            extra = doc.meta.filterKeys { it !in KNOWN },
         )
     }
 
-    /** Creates or updates a note, renaming its file when the title changes. */
+    /**
+     * Creates or updates a note, renaming its file when the title changes. A note that says the same as the file on
+     * disk is not written at all (opening a note never changes it), header keys Athar does not know are kept, and
+     * the new file is written before the old one is removed.
+     */
     fun save(note: Note): Note {
         val id = note.id.ifEmpty { newId() }
+        val existing = mdFiles(dir).filter { it.name.endsWith("-$id.md") }
+        val current = existing.firstNotNullOfOrNull { parseNote(it) }
+        if (current != null && current.sameContentAs(note)) return current
         val created = note.created.ifEmpty { files.stamp() }
-        val saved = note.copy(id = id, created = created, updated = files.stamp())
+        val saved = note.copy(id = id, created = created, updated = files.stamp(), extra = note.extra.ifEmpty { current?.extra.orEmpty() })
         val meta = linkedMapOf("id" to id, "title" to saved.title, "created" to created, "updated" to saved.updated, "tags" to Frontmatter.formatList(saved.tags))
         if (saved.pinned) meta["pinned"] = "true"
         if (saved.favorite) meta["favorite"] = "true"
         if (saved.archived) meta["archived"] = "true"
         if (saved.collection.isNotEmpty()) meta["collection"] = saved.collection
+        saved.extra.forEach { (k, v) -> if (k !in meta) meta[k] = v }
         val target = dir / "${slugOf(saved.title)}-$id.md"
-        mdFiles(dir).filter { it.name.endsWith("-$id.md") && it != target }.forEach { fs.delete(it) }
         files.write(target, Frontmatter.write(Document(meta, saved.body)))
+        existing.filter { it != target }.forEach { fs.delete(it) }
         return saved
     }
 
